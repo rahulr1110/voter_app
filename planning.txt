@@ -1,0 +1,50 @@
+
+
+
+models
+routes
+
+voting app functionality
+
+1 user signup/signin
+
+2  see the list of candidates
+
+3 vote one of the candidates
+
+4 there is a route which show the list of candidates and their live vote count
+
+5 user data mus contain their one unique govt id proof named aadhar
+
+6 there should be one admin who can only maintain the table of candidates and he can't vote at all
+
+7 user can change there pasword
+
+8 usr can only login with aadhar card and password
+
+----------------------------------------------
+
+routes
+
+user Authentication
+/signup - POST create a new user account
+//login - POST login to an exisiting account
+
+voting
+/candidates : GET get the list of candidates
+/vote/:candidates - POST vote for a specifuc candidate
+
+vote Count
+/vote/counts: GET - get the list of candidates sorted by their vote count
+
+User profile: 
+/profile : GET get the users profile information
+/profile/password : PUT change the user password
+
+admin candidate Management
+/candidate : POST - create a new candidate
+/candidate/:candidateId: PUT updtae an existing candidate
+/candidate/:candidateId: DELETE -delete a candidate from the list
+
+
+

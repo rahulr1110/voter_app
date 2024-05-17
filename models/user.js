@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
+//define the user schema
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -42,11 +43,14 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre("save", async function (next) {
   const person = this;
+  //hashing the password if it is modified
   if (!person.isModified("password")) return next();
   try {
+    //hash password generation
     const salt = await bcrypt.genSalt(10);
-
+    //hash password
     const hashPassword = await bcrypt.hash(person.password, salt);
+    //override the plain password with hash password
     person.password = hashPassword;
     next();
   } catch (error) {
@@ -56,6 +60,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
   try {
+    //use bcrypt to compare the provided password with the hased password
     const isMatch = await bcrypt.compare(candidatePassword, this.password);
     return isMatch;
   } catch (error) {

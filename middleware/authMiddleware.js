@@ -2,13 +2,14 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 const jwtAuthMiddleware = (req, res, next) => {
-  const authorization = req.body.authorization;
+  const authorization = req.headers.authorization;
+  console.log(authorization);
   if (!authorization)
     return res.status(401).json({
       success: false,
       message: "auth token not found",
     });
-  const token = req.body.authorization.split(" ")[1];
+  const token = req.headers.authorization.split(" ")[1];
   if (!token)
     return res.status(401).json({
       success: false,

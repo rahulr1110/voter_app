@@ -54,7 +54,7 @@ This is a backend application for a voting system where users can vote for candi
 - `POST /user/login`: Login As Voter
 
 ### Add Vote to Candidate
-- `POST /voter/addvote/:id`: Add Vote tp Candidates
+- `POST /voter/addvote/:id`: Add Vote to Candidate
 
 ### Get Votes Count to Candidate
 - `GET /voter/getvotescounts`: Get the Votes Count to Candidates

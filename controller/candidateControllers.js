@@ -17,7 +17,7 @@ const checkAdminRole = async (userID) => {
 const addCandidateController = async (req, res) => {
   try {
     if (!(await checkAdminRole(req.user.id)))
-      return res.status(403).json({ message: "user does not have admon role" });
+      return res.status(403).json({ message: "user does not have admin role" });
 
     //getiing user(candidate) data
     const data = req.body;
@@ -42,17 +42,24 @@ const updateCandidateController = async (req, res) => {
       return res.status(403).json({ message: "user does not have admin role" });
 
     //getting the id from URL
-    const candidateID = req.params.CandidateID;
+    const { candidateID } = req.params;
+    console.log(candidateID);
     //data of the candidate
     const updatedCandidateDate = req.body;
 
     const response = await Candidate.findByIdAndUpdate(
       candidateID,
-      updatedCandidateDate
+      updatedCandidateDate,
+      {
+        new: true, // Return the updated document
+        runValidators: true, // Run Mongoose validation
+      }
     );
+
     if (!response) {
       return res.status(404).json({ error: "candidate not found" });
     }
+    console.log(response);
     console.log("candidtae data updated");
     res.status(200).json(response);
   } catch (error) {
@@ -67,7 +74,7 @@ const deleteCandidateController = async (req, res) => {
     if (!checkAdminRole(req.user.id))
       return res.status(403).json({ message: "user does not have admin role" });
 
-    const candidateID = req.params.candidateID; // Extract the id from the URL parameter
+    const { candidateID } = req.params; // Extract the id from the URL parameter
 
     const response = await Candidate.findByIdAndDelete(candidateID);
 
@@ -76,7 +83,10 @@ const deleteCandidateController = async (req, res) => {
     }
 
     console.log("candidate deleted");
-    res.status(200).json(response);
+    res.status(200).send({
+      success: true,
+      message: "candidate deleted",
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Internal Server Error" });
@@ -86,7 +96,7 @@ const deleteCandidateController = async (req, res) => {
 // Add  Vote Controller
 
 const addVoteController = async (req, res) => {
-  let candidateID = req.params.candidateID;
+  let {candidateID} = req.params;
   let userId = req.user.id;
 
   try {

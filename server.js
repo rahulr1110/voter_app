@@ -8,8 +8,11 @@ connectDB();
 app.use(bodyparse.json());
 
 const userRoutes = require("./routes/userRoutes");
+const candidateRoutes = require("./routes/candidateRoutes");
 
 app.use("/user", userRoutes);
+app.use("/candidate", candidateRoutes);
+app.use("/voter", candidateRoutes);
 
 const PORT = process.env.PORT || 3000;
 
